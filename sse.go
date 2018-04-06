@@ -187,9 +187,17 @@ func (s *Server) dispatch() {
                 log.Printf("go-sse: new client connected to channel '%s'.", ch.name)
             }
 
+            if s.options.ClientConnected != nil {
+                s.options.ClientConnected(c)
+            }
+
         // Client disconnected.
         case c := <- s.removeClient:
             if ch, exists := s.channels[c.channel]; exists {
+                if s.options.ClientDisconnected != nil {
+                    s.options.ClientDisconnected(c)
+                }
+
                 ch.removeClient(c)
                 if s.Debug {
                     log.Printf("go-sse: client disconnected from channel '%s'.", ch.name)

@@ -12,6 +12,8 @@ type Options struct {
     // ChannelNameFunc allow to create custom channel names.
     // Default channel name is the request path.
     ChannelNameFunc func (*http.Request) string
+    ClientConnected func (client *Client)
+    ClientDisconnected func (client *Client)
 }
 
 func (opt *Options) HasHeaders() bool {
